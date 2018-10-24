@@ -1,0 +1,17 @@
+{
+  "name": "phaser-hello-world",
+  "version": "1.0.0",
+  "description": "The simple HTML5 game by https://phaser.io/tutorials/making-your-first-phaser-3-game tutorial.",
+  "main": "index.js",
+  "scripts": {
+    "serve": "http-server ./src -c-1",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": ["phaser"],
+  "author": "Alexander Zimakov",
+  "license": "MIT",
+  "devDependencies": {
+    "http-server": "0.11.1",
+    "prettier": "1.14.3"
+  }
+}
