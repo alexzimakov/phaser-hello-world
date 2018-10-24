@@ -21,6 +21,7 @@ var game = new Phaser.Game(config);
 var platforms;
 var player;
 var cursors;
+var stars;
 
 function preload() {
   this.load.image('sky', 'assets/sky.png');
@@ -32,6 +33,8 @@ function preload() {
 
 function create() {
   this.add.image(400, 300, 'sky');
+
+  cursors = this.input.keyboard.createCursorKeys();
 
   platforms = this.physics.add.staticGroup();
 
@@ -47,7 +50,6 @@ function create() {
 
   player.setBounce(0.2);
   player.setCollideWorldBounds(true);
-
   this.anims.create({
     key: 'left',
     frames: this.anims.generateFrameNumbers('dude', { start: 0, end: 3 }),
@@ -65,10 +67,19 @@ function create() {
     frameRate: 10,
     repeat: -1
   });
-
   this.physics.add.collider(player, platforms);
 
-  cursors = this.input.keyboard.createCursorKeys();
+  stars = this.physics.add.group({
+    key: 'star',
+    repeat: 11,
+    setXY: { x: 12, y: 0, stepX: 70 }
+  });
+
+  stars.children.iterate(function(child) {
+    child.setBounceY(Phaser.Math.FloatBetween(0.4, 0.8));
+  });
+  this.physics.add.collider(stars, platforms);
+  this.physics.add.overlap(player, stars, collectStar, null, this);
 }
 
 function update() {
@@ -86,4 +97,8 @@ function update() {
   if (cursors.up.isDown && player.body.touching.down) {
     player.setVelocityY(-330);
   }
+}
+
+function collectStar(player, star) {
+  star.disableBody(true, true);
 }
